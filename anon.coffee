@@ -125,6 +125,7 @@ canTweet = (account, error) ->
     error "unable to create twitter client for account: " + account
 
 main = ->
+  console.log "******   Starting HudsonWikiEdits server   ******"
   config = getConfig argv.config
   checkConfig config, (err) ->
     if not err
