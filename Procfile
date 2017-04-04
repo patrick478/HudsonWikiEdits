@@ -1,1 +1,0 @@
-web: ./anon.coffee
