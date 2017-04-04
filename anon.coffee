@@ -96,19 +96,11 @@ tweet = (account, status, edit) ->
       console.log err if err
 
 inspect = (account, edit) ->
-  if edit.url
-    if argv.verbose
-      console.log edit.url
-    if account.whitelist and account.whitelist[edit.wikipedia] \
-        and account.whitelist[edit.wikipedia][edit.page]
-      status = getStatus edit, edit.user, account.template
-      tweet account, status, edit
-    else if account.namespaces? and \
-        (edit.namespace not in account.namespaces) then
-    else if account.ranges and edit.anonymous
-      for name, ranges of account.ranges
-        if isIpInAnyRange edit.user, ranges
-          status = getStatus edit, name, account.template
+    if argv.verbose and edit.pageUrl == 'http://en.wikipedia.org/wiki/Anthony_Hudson_(footballer)'
+      console.log edit.pageUrl
+    if account.ranges and edit.pageUrl == 'http://en.wikipedia.org/wiki/Anthony_Hudson_(footballer)'
+      for name, ranges of account.ranges 
+          status = getStatus edit, edit.user, account.template
           tweet account, status, edit
 
 checkConfig = (config, error) ->
@@ -136,7 +128,7 @@ main = ->
   config = getConfig argv.config
   checkConfig config, (err) ->
     if not err
-      wikipedia = new WikiChanges ircNickname: config.nick
+      wikipedia = new WikiChanges  ircNickname: 'wikichanges-Patr'; wikipedias: "en.wikipedia"
       wikipedia.listen (edit) ->
         for account in config.accounts
           inspect account, edit
