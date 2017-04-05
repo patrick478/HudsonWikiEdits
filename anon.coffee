@@ -10,7 +10,7 @@ Mustache      = require 'mustache'
 argv = minimist process.argv.slice(2), default:
   verbose: false
   config: 'config.json'
-  
+
 address = (ip) ->
   if ':' in ip
     i = new ipv6.v6.Address(ip)
@@ -62,23 +62,23 @@ loadJson = (path) ->
     path = './' + path
   require path
 
-getStatusLength = (edit, name, template) ->
+getStatusLength = (edit, name, comment, template) ->
   # https://support.twitter.com/articles/78124-posting-links-in-a-tweet
   fakeUrl = 'http://t.co/BzHLWr31Ce'
-  status = Mustache.render template, name: name, url: fakeUrl, page: edit.page
+  status = Mustache.render template, name: name, url: fakeUrl, comment: comment
   status.length
 
-getStatus = (edit, name, template) ->
-  len = getStatusLength edit, name, template
+getStatus = (edit, name, comment, template) ->
+  len = getStatusLength edit, name, comment, template
   if len > 140
-    newLength = edit.page.length - (len - 139)
-    page = edit.page[0..newLength]
+    newLength = comment.length - (len - 136)
+    comment = comment[0..newLength] + "..."
   else
-    page = edit.page
+    comment = edit.comment
   Mustache.render template,
     name: name
     url: edit.url
-    page: page
+    comment: comment
 
 lastChange = {}
 isRepeat = (edit) ->
@@ -89,18 +89,19 @@ isRepeat = (edit) ->
   return r
 
 tweet = (account, status, edit) ->
-  console.log status
+  if argv.noop
+    console.log status
   unless argv.noop or (account.throttle and isRepeat(edit))
     twitter = new Twit account
     twitter.post 'statuses/update', status: status, (err) ->
       console.log err if err
 
 inspect = (account, edit) ->
-    if argv.verbose and edit.pageUrl == 'http://en.wikipedia.org/wiki/Anthony_Hudson_(footballer)'
-      console.log edit.pageUrl
-    if account.ranges and edit.pageUrl == 'http://en.wikipedia.org/wiki/Anthony_Hudson_(footballer)'
+    if argv.verbose and edit.pageUrl == 'http://en.wikipedia.org/wiki/North_Wellington'
+      console.log edit
+    if account.ranges and edit.pageUrl == 'http://en.wikipedia.org/wiki/North_Wellington'
       for name, ranges of account.ranges 
-          status = getStatus edit, edit.user, account.template
+          status = getStatus edit, edit.user, edit.comment, account.template
           tweet account, status, edit
 
 checkConfig = (config, error) ->
