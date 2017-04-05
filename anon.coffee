@@ -97,8 +97,8 @@ tweet = (account, status, edit) ->
       console.log err if err
 
 inspect = (account, edit) ->
-    if argv.verbose and edit.pageUrl == 'http://en.wikipedia.org/wiki/Anthony_Hudson_(footballer)'
-      console.log edit
+    if edit.pageUrl == 'http://en.wikipedia.org/wiki/Anthony_Hudson_(footballer)'
+      console.log edit.url
     if account.ranges and edit.pageUrl == 'http://en.wikipedia.org/wiki/Anthony_Hudson_(footballer)'
       for name, ranges of account.ranges 
           status = getStatus edit, edit.user, edit.comment, account.template
