@@ -6,14 +6,16 @@
       "consumer_secret": "YTU5jhrgL23pmXg4xfWXLhEf7Sk0ZU4jJliwKeshh1nlXO7DnG",
       "access_token": "849042839061143552-OS1KTLu0k460USuhPdD0Tki3o85i4NK",
       "access_token_secret": "FXKiHMIqD0titMGLPowQf9DTNXfOluhYGd3dY7K8NfxcA",
-      "template": "{{{page}}} Wikipedia article edited by {{{name}}} {{&url}}",
+
+      "template": "Edited by {{{name}}}: \"{{{comment}}}\" {{&url}}",
+
       "ranges": {
         "Internet": [
           ["0.0.0.0", "255.255.255.255"]
         ]
       },
       "throttle": false,
-      "namespaces": ["article", "file", "media", "main", "user_talk", "user talk"]
+      "namespaces": ["article", "file", "media", "main", "user_talk", "user talk", "wikipedia"]
     }
   ]
 }
