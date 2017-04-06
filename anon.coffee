@@ -71,7 +71,7 @@ getStatusLength = (edit, name, comment, template) ->
 getStatus = (edit, name, comment, template) ->
   len = getStatusLength edit, name, comment, template
   if len > 140
-    newLength = comment.length - (len - 136)
+    newLength = comment.length - (len - 135)
     comment = comment[0..newLength] + "..."
   else
     comment = edit.comment
